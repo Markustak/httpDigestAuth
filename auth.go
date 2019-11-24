@@ -81,7 +81,7 @@ func (d *DigestHeaders) ApplyAuth(req *http.Request) {
 }
 
 // Auth authenticates against a given URI
-func (d *DigestHeaders) Auth(username string, password string, uri string) (*DigestHeaders, error) {
+func (d *DigestHeaders) Auth(username string, password string, uri string, method string) (*DigestHeaders, error) {
 
 	client := &http.Client{
 		Transport: &http.Transport{
@@ -92,7 +92,7 @@ func (d *DigestHeaders) Auth(username string, password string, uri string) (*Dig
 		Jar:     &myjar{jar: make(map[string][]*http.Cookie)},
 	}
 
-	req, err := http.NewRequest("GET", uri, nil)
+	req, err := http.NewRequest(method, uri, nil)
 	if err != nil {
 		log.Printf("error in auth package: %v", err)
 		return d, err
